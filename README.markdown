@@ -48,6 +48,11 @@ How to assign values
 	$phpdocx->assignNestedBlock("toys",array("#TOYNAME#"=>"Ball"),array("members"=>1,"pets"=>1)); // would create a block toy for rex
 	$phpdocx->assignNestedBlock("toys",array("#TOYNAME#"=>"Frisbee"),array("members"=>2,"pets"=>1)); // would create a block toy for rox
 
+How to save
+-----------
+
+	$phpdocx->save("somefile.docx");
+
 
 
 
