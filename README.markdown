@@ -32,7 +32,7 @@ Please check out full template in the repo
 How to setup
 ------------
 
-	require("phpdocx.php");
+	require("phpDocx.php");
 	$phpdocx = new phpdocx("mytemplate.docx");
 
 How to assign values
