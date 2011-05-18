@@ -16,11 +16,11 @@ If you want to map a single field you can just use #NAME# but you could use anyt
 
 To create a block
 
-[start blockname]
-your content
-[start somenestedblock]
-[end somenestedblock]
-[end blockname]
+	[start blockname]
+	your content
+	[start somenestedblock]
+	[end somenestedblock]
+	[end blockname]
 
 + blockname should be unique
 + blockname has to match \w+ reg ex (a-zA-Z_)
