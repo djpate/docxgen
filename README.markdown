@@ -52,7 +52,25 @@ How to save
 -----------
 
 	$phpdocx->save("somefile.docx");
+	
+	
+More info
+---------
 
+
+### Why this pclzip ?
+
+
+I'm using pclzip for the zip process because the zip utility provided with php can cause issue with office
+
+
+### What's the licence ?
+
+GPL
+
+### Anything else ?
+
+I'm using three function from the TBS library so congrats to them
 
 
 
