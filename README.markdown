@@ -50,15 +50,15 @@ How to assign values
 
 How to save
 -----------
-	you can either save the generated doc to a file using the save method
+you can either save the generated doc to a file using the save method
 
 	$phpdocx->save("somefile.docx");
 	
-	Or you can force the download of the file with the download method
+Or you can force the download of the file with the download method
 	
 	$phpdocx->download("somefile.docx");
 	
-	If you do not specify a filename in the download method a generated filename will be used
+If you do not specify a filename in the download method a generated filename will be used
 	
 	
 More info
