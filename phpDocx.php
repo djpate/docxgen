@@ -36,6 +36,30 @@
 			array_push($this->assigned_nested_block,array("block"=>$blockname,"values"=>$values,"parent"=>$parent));
 		}
 		
+		public function download($name = null){
+			
+			$tmp_filename = $this->tmpDir."/".uniqid(true).".docx";
+			
+			if(is_null($name)){
+				$name = basename($tmp_filename);
+			}
+			
+			$this->save($tmp_filename);
+			
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename='.$name);
+			header('Content-Transfer-Encoding: binary');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($tmp_filename));
+			ob_clean();
+			flush();
+			readfile($tmp_filename);
+			exit;
+		}
+		
 		public function save($outputFile){
 			
 			$this->extract();
