@@ -238,8 +238,12 @@
 				
 				$block_content = $this->block_content[$blockname];
 				
-				foreach($values as $id => $val){
-					$block .= str_replace($id,$this->filter($val),$block_content);
+				foreach($values as $row){
+					$current_block = $block_content;
+					foreach($row as $id => $val){
+						$current_block = str_replace($id,$this->filter($val),$current_block);
+					}
+					$block .= $current_block;
 				}
 				
 				preg_match($regex,$this->content,$matches);
