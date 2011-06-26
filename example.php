@@ -3,6 +3,9 @@
 require("phpDocx.php");
 
 $phpdocx = new phpdocx("template.docx");
+
+$phpdocx->addImage("dog1","./example_dog.jpg");
+
 $phpdocx->assign("#TITLE1#","Pet shop list"); // basic field mapping
 
 $phpdocx->assignBlock("members",array(array("#NAME#"=>"John","#SURNAME#"=>"DOE"),array("#NAME#"=>"Jane","#SURNAME#"=>"DOE"))); // this would replicate two members block with the associated values

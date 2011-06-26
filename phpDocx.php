@@ -11,6 +11,7 @@
 		private $assigned_nested_block = array();
 		private $block_content = array();
 		private $block_count = array();
+		private $images = array();
 		private $nested_block_count = array();
 		
 		public function __construct($template){
@@ -22,6 +23,21 @@
 			}
 			
 		
+		}
+		
+		/* the ref will be used to assign this image later 
+		 * You can use whatever you want
+		 * */
+		public function addImage($ref,$file){
+			if(file_exists($file)){
+				if(!array_key_exists($ref,$this->images)){
+					$this->images[$ref] = $file;
+				} else {
+					throw new Exception("the ref $ref allready exists");
+				}
+			} else {
+				throw new Exception($file.' does not exist');
+			}
 		}
 		
 		public function assign($field,$value){
@@ -64,6 +80,8 @@
 			
 			$this->extract();
 			
+			$this->processImages();
+			
 			$this->content = file_get_contents($this->tmpDir."/word/document.xml");
 			$this->clean();
 			
@@ -91,6 +109,28 @@
 			}
 			
 			$this->compact($outputFile);
+		}
+		
+		private function processImages(){
+
+			if(count($this->images)>0){
+				
+				if(!is_dir($this->tmpDir."/word/media")){
+					mkdir($this->tmpDir."/word/media");
+				}
+				
+				$relationships = file_get_contents($this->tmpDir."/word/_rels/document.xml.rels");
+				
+				foreach($this->images as $ref => $file){
+					$xml = '<Relationship Id="phpdocx_'.$ref.'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/'.basename($file).'" />';
+					copy($file,$this->tmpDir."/word/media/".basename($file));
+					$relationships = str_replace('ships">','ships">'.$xml,$relationships);
+				}
+				
+				file_put_contents($this->tmpDir."/word/_rels/document.xml.rels",$relationships);
+				
+			}
+			
 		}
 		
 		private function extract(){
