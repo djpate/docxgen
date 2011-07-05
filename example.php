@@ -4,7 +4,7 @@ require("phpDocx.php");
 
 $phpdocx = new phpdocx("template.docx");
 
-$phpdocx->addImage("dog1","./example_dog.jpg");
+//$phpdocx->addImage("dog1","./example_dog.jpg");
 
 $phpdocx->assign("#TITLE1#","Pet shop list"); // basic field mapping
 
