@@ -13,7 +13,7 @@
 		private $block_count = array();
 		private $images = array();
 		private $nested_block_count = array();
-		
+
 		public function __construct($template){
 		
 			if(file_exists($template)){
@@ -42,6 +42,14 @@
 		
 		public function assign($field,$value){
 			$this->assigned_field[$field] = $this->filter($value);
+		}
+		
+		public function assignToHeader($field,$value){
+			$this->assigned_header_field[$field] = $this->filter($value);
+		}
+		
+		public function assignToFooter($field,$value){
+			$this->assigned_footer_field[$field] = $this->filter($value);
 		}
 		
 		public function assignBlock($blockname,$values){
@@ -76,12 +84,8 @@
 			exit;
 		}
 		
-		public function save($outputFile){
-			
-			$this->extract();
-			
-			$this->processImages();
-			
+		
+		private function saveMainDocument(){
 			$this->content = file_get_contents($this->tmpDir."/word/document.xml");
 			$this->clean();
 			
@@ -106,6 +110,48 @@
 				foreach($this->assigned_nested_block as $array){
 					$this->addNestedBlock($array['block'],$array['values'],$array['parent']);
 				}
+			}
+			
+			file_put_contents($this->tmpDir."/word/document.xml",$this->content);
+		}
+		
+		private function saveHeader(){
+			$this->headerContent = file_get_contents($this->tmpDir."/word/header1.xml");
+						
+			foreach($this->assigned_header_field as $field => $value){
+				$this->headerContent = str_replace($field,$value,$this->headerContent);
+			}
+			
+			file_put_contents($this->tmpDir."/word/header1.xml",$this->headerContent);
+		}
+		
+		
+		private function saveFooter(){
+			$this->footerContent = file_get_contents($this->tmpDir."/word/footer1.xml");
+		
+			foreach($this->assigned_footer_field as $field => $value){
+				$this->footerContent = str_replace($field,$value,$this->footerContent);
+			}
+		
+			file_put_contents($this->tmpDir."/word/footer1.xml",$this->footerContent);
+		}
+		
+		//assigned_header_field
+		public function save($outputFile){
+			
+			$this->extract();
+			
+			$this->processImages();
+			
+			$this->saveMainDocument();
+			
+			
+			if(count($this->assigned_header_field) > 0){
+				$this->saveHeader();
+			}
+			
+			if(count($this->assigned_footer_field) > 0){
+				$this->saveFooter();
 			}
 			
 			$this->compact($outputFile);
@@ -148,13 +194,10 @@
 		}
 		
 		private function compact($output){
-			
-			file_put_contents($this->tmpDir."/word/document.xml",$this->content);
-			
+		
+		
 			$archive = new PclZip($output);
 			$archive->create($this->tmpDir,PCLZIP_OPT_REMOVE_PATH,$this->tmpDir);
-			
-		
 		}
 		
 		private function rrmdir($dir) {
