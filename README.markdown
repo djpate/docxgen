@@ -1,6 +1,18 @@
 PHPDOCX
 =======
 
+Fork
+----
+This is a fork from the original https://github.com/djpate/docxgen
+Just needed to also change some fields in the header and footer so I created the necessary methods to do so.
+Note: This are very basic methods, it assumes there's only 1 header (header1.xml) and 1 footer  (footer1.xml).
+
+I'm no expert in the docx format so I just replaced the tag with the value, no xml iteration or funky business here :)
+
+The example should be self explanatory.
+
+
+
 Features
 --------
 
