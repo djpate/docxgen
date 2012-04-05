@@ -6,6 +6,11 @@ $phpdocx = new phpdocx("template.docx");
 
 //$phpdocx->addImage("dog1","./example_dog.jpg");
 
+
+$phpdocx->assignToHeader("#HEADER1#","Header 1"); // basic field mapping to header
+$phpdocx->assignToFooter("#FOOTER1#","Footer 1"); // basic field mapping to footer
+
+
 $phpdocx->assign("#TITLE1#","Pet shop list"); // basic field mapping
 
 $phpdocx->assignBlock("members",array(array("#NAME#"=>"John","#SURNAME#"=>"DOE"),array("#NAME#"=>"Jane","#SURNAME#"=>"DOE"))); // this would replicate two members block with the associated values
