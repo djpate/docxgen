@@ -116,24 +116,29 @@
 		}
 		
 		private function saveHeader(){
-			$this->headerContent = file_get_contents($this->tmpDir."/word/header1.xml");
-						
-			foreach($this->assigned_header_field as $field => $value){
-				$this->headerContent = str_replace($field,$value,$this->headerContent);
-			}
-			
-			file_put_contents($this->tmpDir."/word/header1.xml",$this->headerContent);
+      foreach ($this->getFilesStartingWith('header') as $header_file) {
+      
+        $this->headerContent = file_get_contents($this->tmpDir."/word/" . $header_file);
+
+        foreach($this->assigned_header_field as $field => $value){
+          $this->headerContent = str_replace($field,$value,$this->headerContent);
+        }
+
+        file_put_contents($this->tmpDir."/word/" . $header_file, $this->headerContent);
+      }
 		}
 		
 		
 		private function saveFooter(){
-			$this->footerContent = file_get_contents($this->tmpDir."/word/footer1.xml");
-		
-			foreach($this->assigned_footer_field as $field => $value){
-				$this->footerContent = str_replace($field,$value,$this->footerContent);
-			}
-		
-			file_put_contents($this->tmpDir."/word/footer1.xml",$this->footerContent);
+      foreach ($this->getFilesStartingWith('footer') as $footer_file) {
+        $this->footerContent = file_get_contents($this->tmpDir."/word/" . $footer_file);
+
+        foreach($this->assigned_footer_field as $field => $value){
+          $this->footerContent = str_replace($field,$value,$this->footerContent);
+        }
+
+        file_put_contents($this->tmpDir."/word/" . $footer_file, $this->footerContent);
+      }
 		}
 		
 		//assigned_header_field
@@ -506,7 +511,27 @@
 			return 0;
 		}
 
-		
+    /**
+     * Scan directory for files starting with $file_name
+     */
+		private function getFilesStartingWith($file_name) {
+      $dir = $this->tmpDir . "/word/";
+      static $files;
+      if (!isset($files)) {
+        $files = scandir($dir);
+      }
+      
+      $found_files = array();
+      foreach ($files as $file) {
+        if (is_file($dir . $file)) {
+          if (strpos($file, $file_name) !== FALSE) {
+            $found_files[] = $file;
+          }
+        }
+      }
+      
+      return $found_files;
+    }
 	}
 
 ?>
