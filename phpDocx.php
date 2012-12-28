@@ -9,6 +9,8 @@
 		private $assigned_field = array();
 		private $assigned_block = array();
 		private $assigned_nested_block = array();
+		private $assigned_header_field = array();
+		private $assigned_footer_field = array();
 		private $block_content = array();
 		private $block_count = array();
 		private $images = array();
